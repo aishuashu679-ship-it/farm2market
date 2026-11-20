@@ -924,11 +924,11 @@ def messages():
 
 
 
-@app.route("/-history")
+@app.route("/transaction-history")
 @login_required
 def transaction_history():
     conn = None
-    transactions = [] transaction
+    transactions = []
     role = (session.get("role") or "").strip().lower()
 
     try:
