@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Compare Buyers | Smart Farmer{% endblock %}
+{% block content %}
+<section class="page-heading">
+  <span class="eyebrow">MAKE AN INFORMED CHOICE</span>
+  <h1>Compare buyer offers</h1>
+  <p>Enter crop details to estimate income after transport costs.</p>
+</section>
+<section class="panel">
+  <form method="post" class="compare-form">
+    <label>Crop name<input name="crop" value="{{ crop }}" required placeholder="e.g. Tomato"></label>
+    <label>Quantity (kg)<input type="number" name="quantity" min="0.01" step="0.01" value="{{ quantity }}" required></label>
+    <label>Your location (for reference)<input name="location" value="{{ location }}" placeholder="Village or town"></label>
+    <label>Transport rate (₹ per km for the whole load)<input type="number" name="transport_rate" min="0" step="0.01" value="{{ transport_rate }}" required></label>
+    <button class="button" type="submit">Compare Offers</button>
+  </form>
+  <p class="small muted">The transport rate is a simple demo estimate for the entire load, not a per-kg rate. Buyer distances are sample data.</p>
+</section>
+{% if results %}
+  <section class="results-heading"><h2>Results for {{ crop|title }}</h2><p>Quantity: {{ quantity }} kg · Sorted by estimated net income, highest first.</p></section>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Buyer</th><th>Price / kg</th><th>Distance</th><th>Gross income</th><th>Transport</th><th>Estimated net</th><th>Contact</th></tr></thead>
+    <tbody>
+    {% for offer in results %}
+      <tr {% if loop.first %}class="best-row"{% endif %}>
+        <td><strong>{{ offer.business_name }}</strong>{% if loop.first %}<span class="best-tag">Best estimated return</span>{% endif %}<small>{{ offer.location }}</small></td>
+        <td>₹{{ '%.2f'|format(offer.price_per_kg) }}</td>
+        <td>{{ offer.distance_km }} km</td>
+        <td>₹{{ '%.2f'|format(offer.gross_income) }}</td>
+        <td>₹{{ '%.2f'|format(offer.transport_cost) }}</td>
+        <td class="net">₹{{ '%.2f'|format(offer.net_income) }}</td>
+        <td>{{ offer.contact_name }}<small>{{ offer.phone }}</small></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  <p class="demo-note">These are sample offers. Call the buyer to confirm the current price, crop quality requirements, quantity, and final transport charges.</p>
+{% endif %}
+{% endblock %}

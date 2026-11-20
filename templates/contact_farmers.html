@@ -1,0 +1,55 @@
+
+{% extends "base.html" %}
+
+{% block title %}Contact Farmers | Farm2Market{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+    <span class="eyebrow">BUYER WORKSPACE</span>
+    <h1>Contact Farmers 📞</h1>
+    <p>Connect directly with registered farmers about their available crops.</p>
+</section>
+
+<div class="dashboard-grid">
+
+    {% for farmer in farmers %}
+
+    <div class="dashboard-card">
+        <span>👨‍🌾</span>
+
+        <h2>{{ farmer.name }}</h2>
+
+        <p>
+            <strong>Phone:</strong>
+            {{ farmer.phone or "Not provided" }}
+        </p>
+
+        <p>
+            <strong>Location:</strong>
+            {{ farmer.location or "Not provided" }}
+        </p>
+
+        {% if farmer.phone %}
+        <a class="button"
+           href="tel:{{ farmer.phone }}">
+            Call Farmer
+        </a>
+        {% else %}
+        <p class="muted">Phone number unavailable.</p>
+        {% endif %}
+
+    </div>
+
+    {% else %}
+
+    <div class="dashboard-card">
+        <h2>No Farmers Registered</h2>
+        <p>Registered farmers will appear here.</p>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

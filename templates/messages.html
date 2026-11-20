@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Messages - Farm2Market</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f2;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .message-box {
+            height: 300px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        a {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Messages</h2>
+
+        <div class="message-box">
+            <p>No messages yet.<br>
+            Your conversations will appear here.</p>
+        </div>
+
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </div>
+</body>
+</html>

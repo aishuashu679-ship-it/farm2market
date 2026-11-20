@@ -1,0 +1,75 @@
+
+{% extends "base.html" %}
+
+{% block title %}Transaction History | Farm2Market{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+    <span class="eyebrow">BUYER ACCOUNT</span>
+    <h1>Transaction History 🧾</h1>
+    <p>View your purchase details, platform fees and payment status.</p>
+</section>
+
+<div class="dashboard-card">
+
+    {% if transactions %}
+
+    <div style="overflow-x: auto;">
+        <table style="width:100%; border-collapse:collapse; min-width:850px;">
+
+            <thead>
+                <tr>
+                    <th>Crop</th>
+                    <th>Quantity</th>
+                    <th>Price/kg</th>
+                    <th>Crop Amount</th>
+                    <th>Platform Fee</th>
+                    <th>Transport</th>
+                    <th>Total Payment</th>
+                    <th>Payment Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.crop_name }}</td>
+
+                    <td>{{ transaction.quantity_kg }} kg</td>
+
+                    <td>₹{{ transaction.price_per_kg }}</td>
+
+                    <td>₹{{ transaction.total_amount }}</td>
+
+                    <td>₹{{ transaction.platform_fee }}</td>
+
+                    <td>₹{{ transaction.transport_cost }}</td>
+
+                    <td><strong>₹{{ transaction.net_amount }}</strong></td>
+
+                    <td>{{ transaction.payment_status }}</td>
+
+                    <td>{{ transaction.created_at.strftime('%d-%m-%Y %I:%M %p') if transaction.created_at else 'N/A' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+    {% else %}
+
+        <h3>No transactions yet</h3>
+        <p>Your purchase records will appear here.</p>
+
+    {% endif %}
+
+</div>
+
+<br>
+
+<a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+
+{% endblock %}

@@ -1,0 +1,81 @@
+
+{% extends "base.html" %}
+{% block title %}Home | Farm2Market{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <span class="eyebrow">🌾 FARM2MARKET • SMART FARMING</span>
+
+    <h1>Sell your harvest to the right buyer.</h1>
+
+    <p>
+      Compare crop prices, discover bulk buyers within 100 km,
+      calculate transportation costs, and find the best estimated
+      return for your harvest.
+    </p>
+
+    <div class="actions">
+      <a class="button" href="{{ url_for('register') }}">
+        Join Farm2Market
+      </a>
+      <a class="button secondary" href="{{ url_for('login') }}">
+        Login
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-art" aria-label="Farm illustration">
+    <div class="sun"></div>
+    <div class="field field-one"></div>
+    <div class="field field-two"></div>
+    <div class="crop">🌾</div>
+    <div class="crop crop-two">🌱</div>
+    <div class="crop crop-three">🌾</div>
+  </div>
+</section>
+
+<section class="features">
+  <article class="feature-card">
+    <span>📊</span>
+    <h3>Crop Market Prices</h3>
+    <p>View stored market prices and their dates to help compare crop values.</p>
+  </article>
+
+  <article class="feature-card">
+    <span>🤝</span>
+    <h3>Nearby Bulk Buyers</h3>
+    <p>Find buyer offers for your crop and compare prices and distances.</p>
+  </article>
+
+  <article class="feature-card">
+    <span>🚚</span>
+    <h3>Transport Calculator</h3>
+    <p>Estimate transportation expenses and compare potential net returns.</p>
+  </article>
+
+  <article class="feature-card">
+    <span>🌱</span>
+    <h3>Crop Categories</h3>
+    <p>Organize cereals, spices, commercial crops, fruits, and vegetables.</p>
+  </article>
+
+  <article class="feature-card">
+    <span>🔬</span>
+    <h3>Quality & Lab Grading</h3>
+    <p>Support sample testing and verified crop-quality results.</p>
+  </article>
+
+  <article class="feature-card">
+    <span>🧾</span>
+    <h3>Payments & Receipts</h3>
+    <p>Plan for secure UPI payments and purchase receipts for both parties.</p>
+  </article>
+</section>
+
+<div class="demo-note">
+  Farm2Market helps farmers compare offers and make informed selling
+  decisions. Live market data, verified laboratory results, messaging,
+  and UPI payments require their respective integrations.
+</div>
+{% endblock %}

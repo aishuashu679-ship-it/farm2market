@@ -1,0 +1,59 @@
+
+{% extends "base.html" %}
+
+{% block title %}Nearby Farmers | Farm2Market{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+    <span class="eyebrow">BUYER WORKSPACE</span>
+    <h1>Find Nearby Farmers 👨‍🌾</h1>
+    <p>Search farmers by village or town and explore their contact details.</p>
+</section>
+
+<section class="form-card">
+    <form method="GET" action="{{ url_for('nearby_farmers') }}">
+        <label>
+            Search by location
+            <input
+                type="text"
+                name="location"
+                value="{{ location }}"
+                placeholder="Enter village or town">
+        </label>
+
+        <button class="button full" type="submit">
+            Search Farmers
+        </button>
+    </form>
+</section>
+
+<div class="dashboard-grid">
+
+    {% for farmer in farmers %}
+    <div class="dashboard-card">
+        <span>👨‍🌾</span>
+
+        <h2>{{ farmer.name }}</h2>
+
+        <p>
+            <strong>Location:</strong>
+            {{ farmer.location or 'Not provided' }}
+        </p>
+
+        <p>
+            <strong>Phone:</strong>
+            {{ farmer.phone or 'Not provided' }}
+        </p>
+    </div>
+
+    {% else %}
+    <div class="dashboard-card">
+        <h2>No Farmers Found</h2>
+        <p>Try searching with another village or town.</p>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

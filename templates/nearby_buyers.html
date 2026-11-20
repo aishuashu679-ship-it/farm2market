@@ -1,0 +1,89 @@
+
+{% extends "base.html" %}
+
+{% block title %}Nearby Buyers | Farm2Market{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+    <span class="eyebrow">FARMER WORKSPACE</span>
+    <h1>Find Nearby Buyers 🏪</h1>
+    <p>Find buyers interested in purchasing your crops.</p>
+</section>
+
+<section class="form-card">
+    <form method="GET" action="{{ url_for('nearby_buyers') }}">
+
+        <label>
+            Crop Name
+            <input type="text" name="crop"
+                   value="{{ crop or '' }}"
+                   placeholder="Example: Tomato">
+        </label>
+
+        <label>
+            Maximum Distance (km)
+            <input type="number" name="max_distance"
+                   min="1" max="100"
+                   value="{{ max_distance or 100 }}">
+        </label>
+
+        <button type="submit" class="button full">
+            Search Nearby Buyers
+        </button>
+
+    </form>
+</section>
+
+<div class="dashboard-grid">
+
+    {% for buyer in buyers %}
+
+    <div class="dashboard-card">
+        <span>🏪</span>
+
+        <h2>{{ buyer.business_name or buyer.buyer_name }}</h2>
+
+        <p><strong>Crop:</strong> {{ buyer.crop_name }}</p>
+        <p><strong>Price:</strong> ₹{{ buyer.price_per_kg }} / kg</p>
+        <p><strong>Distance:</strong> {{ buyer.distance_km }} km</p>
+        <p><strong>Location:</strong> {{ buyer.location or "Not provided" }}</p>
+
+{% if buyer.phone %}
+    {% set phone_number = buyer.phone|string
+        |replace(' ', '')
+        |replace('-', '')
+        |replace('+', '')
+        |replace('(', '')
+        |replace(')', '') %}
+
+    {% if phone_number|length == 10 %}
+        {% set phone_number = '91' ~ phone_number %}
+    {% endif %}
+
+    <a class="button" href="tel:{{ buyer.phone }}">
+        📞 Call Buyer
+    </a>
+
+    <a class="button"
+       href="https://wa.me/{{ phone_number }}?text={{ ('Hello, I am interested in your ' ~ buyer.crop_name ~ ' offer on Farm2Market.')|urlencode }}"
+       target="_blank"
+       rel="noopener">
+        💬 WhatsApp Buyer
+    </a>
+{% endif %}
+
+    </div>
+
+    {% else %}
+
+    <div class="dashboard-card">
+        <h2>No Buyers Found</h2>
+        <p>Try another crop or increase your search distance.</p>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

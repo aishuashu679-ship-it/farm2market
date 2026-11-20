@@ -1,0 +1,128 @@
+
+{% extends "base.html" %}
+
+{% block title %}Best Value Suggestion | Farm2Market{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+    <span class="eyebrow">SMART FARMER ASSISTANT</span>
+    <h1>🏆 Best Value Suggestion</h1>
+    <p>
+        Find the buyer who gives you the highest estimated
+        income after transportation costs.
+    </p>
+</section>
+
+<section class="form-card">
+
+    <form method="POST" action="{{ url_for('best_value') }}">
+
+        <label>
+            Crop Name
+            <input
+                type="text"
+                name="crop"
+                value="{{ crop or '' }}"
+                placeholder="Example: Rice"
+                maxlength="100"
+                required
+            >
+        </label>
+
+        <label>
+            Quantity (kg)
+            <input
+                type="number"
+                name="quantity"
+                min="0.01"
+                step="0.01"
+                value="{{ quantity if quantity else '' }}"
+                placeholder="Enter quantity"
+                required
+            >
+        </label>
+
+        <button type="submit" class="button full">
+            Find Best Buyer
+        </button>
+
+    </form>
+
+</section>
+
+{% if best_offer %}
+
+<section class="dashboard-card">
+
+    <span>🏆</span>
+    <h2>Best Estimated Buyer</h2>
+
+    <p>
+        <strong>Buyer:</strong>
+        {{ best_offer.business_name }}
+    </p>
+
+    <p>
+        <strong>Crop:</strong>
+        {{ best_offer.crop_name }}
+    </p>
+
+    <p>
+        <strong>Price:</strong>
+        ₹{{ "%.2f"|format(best_offer.price_per_kg) }} / kg
+    </p>
+
+    <p>
+        <strong>Distance:</strong>
+        {{ best_offer.distance_km }} km
+    </p>
+
+    <hr>
+
+    <p>
+        <strong>Quantity:</strong>
+        {{ quantity }} kg
+    </p>
+
+    <p>
+        <strong>Gross Income:</strong>
+        ₹{{ "%.2f"|format(best_offer.gross_income) }}
+    </p>
+
+    <p>
+        <strong>Transport Cost:</strong>
+        ₹{{ "%.2f"|format(best_offer.transport_cost) }}
+    </p>
+
+    <h2>
+        Estimated Net Income:
+        ₹{{ "%.2f"|format(best_offer.net_income) }}
+    </h2>
+
+    {% if best_offer.phone %}
+        <a class="button"
+           href="tel:{{ best_offer.phone }}">
+            📞 Contact Buyer
+        </a>
+    {% endif %}
+
+</section>
+
+{% elif searched %}
+
+<section class="dashboard-card">
+    <h2>No Matching Buyer Found</h2>
+    <p>
+        No buyer offers were found for this crop within
+        100 km. Try another crop.
+    </p>
+</section>
+
+{% endif %}
+
+<a class="button" href="{{ url_for('dashboard') }}">
+    Back to Dashboard
+</a>
+
+{% endblock %}

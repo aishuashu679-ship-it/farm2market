@@ -1,0 +1,198 @@
+
+{% extends "base.html" %}
+
+{% block title %}Add Buyer Offer | Farm2Market{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+    <span class="eyebrow">BUYER PORTAL</span>
+    <h1>Publish a Crop Offer 🌾</h1>
+    <p>Publish your purchasing requirements so farmers can compare your offer.</p>
+</section>
+
+<section class="form-card wide">
+
+    <form method="POST" action="{{ url_for('offers') }}">
+
+        <label>
+            Business / Shop Name
+            <input type="text" name="business_name"
+                   required maxlength="150"
+                   placeholder="Enter business name">
+        </label>
+
+        <label>
+            Contact Person
+            <input type="text" name="contact_name"
+                   required maxlength="100"
+                   placeholder="Enter contact name">
+        </label>
+
+        <label>
+            Phone Number
+            <input type="tel" name="phone"
+                   required maxlength="30"
+                   placeholder="Enter phone number">
+        </label>
+
+        <label>
+            Buyer Location
+            <input type="text" name="location"
+                   required maxlength="150"
+                   placeholder="Village, town or market">
+        </label>
+
+        <label>Crop Category</label>
+        <select name="category" id="category" required>
+            <option value="">Select Category</option>
+            <option value="Commercial Crops">Commercial Crops</option>
+            <option value="Spices">Spices</option>
+            <option value="Cereals">Cereals</option>
+            <option value="Fruits">Fruits</option>
+            <option value="Vegetables">Vegetables</option>
+        </select>
+
+        <label>Crop Name</label>
+        <select name="crop_name" id="crop_name" required disabled>
+            <option value="">Select Crop</option>
+        </select>
+
+        <label>Crop Variety</label>
+        <select name="variety" id="variety" required disabled>
+            <option value="">Select Variety</option>
+        </select>
+
+        <label>
+            Required Quantity (kg)
+            <input type="number" name="quantity_kg"
+                   required min="0.01" step="0.01"
+                   placeholder="Example: 500">
+        </label>
+
+        <div class="two-col">
+
+            <label>
+                Offer Price (₹ per kg)
+                <input type="number" name="price_per_kg"
+                       required min="0.01" step="0.01">
+            </label>
+
+            <label>
+                Distance from Farmer (km)
+                <input type="number" name="distance_km"
+                       required min="0" step="0.1">
+            </label>
+
+        </div>
+
+        <label>
+            Additional Notes
+            <input type="text" name="notes"
+                   maxlength="255"
+                   placeholder="Quality, pickup details">
+        </label>
+
+        <button class="button full" type="submit">
+            Publish Offer
+        </button>
+
+    </form>
+
+</section>
+
+<script>
+
+const cropData = {
+    "Cereals": {
+        "Rice": ["Sona Masoori", "Basmati", "Ponni", "Jeera Samba", "IR64", "RNR 15048", "HMT", "MTU 1010"],
+        "Wheat": ["HD 2967", "HD 3086", "PBW 343", "Lokwan", "Sharbati"],
+        "Maize": ["Yellow Maize", "White Maize", "Sweet Corn", "DHM 117"],
+        "Ragi": ["GPU 28", "GPU 67", "Indaf 9"],
+        "Barley": ["RD 2035", "DWRB 123"]
+    },
+
+    "Spices": {
+        "Chilli": ["Byadgi", "Guntur", "Teja", "Kashmiri", "Bird's Eye"],
+        "Turmeric": ["Salem", "Erode", "Alleppey Finger", "Prathibha"],
+        "Pepper": ["Panniyur 1", "Panniyur 5", "Karimunda"],
+        "Cardamom": ["Malabar", "Mysore", "Vazhukka"],
+        "Ginger": ["Rio-de-Janeiro", "Nadia", "Maran"],
+        "Coriander": ["CO 4", "RCR 41", "Sadhana"]
+    },
+
+    "Fruits": {
+        "Mango": ["Alphonso", "Totapuri", "Banganapalli", "Dasheri", "Kesar", "Neelum"],
+        "Banana": ["Robusta", "Grand Naine", "Yelakki", "Nendran", "Poovan"],
+        "Grapes": ["Thompson Seedless", "Sonaka", "Flame Seedless"],
+        "Papaya": ["Red Lady", "CO 2", "CO 7"],
+        "Guava": ["Allahabad Safeda", "Lalit", "Arka Mridula"],
+        "Orange": ["Nagpur", "Coorg Mandarin", "Mosambi"]
+    },
+
+    "Vegetables": {
+        "Tomato": ["Arka Rakshak", "Arka Vikas", "Abhinav", "US 440", "Sankranthi"],
+        "Onion": ["Red Onion", "White Onion", "Bangalore Rose", "Bhima Super"],
+        "Potato": ["Kufri Jyoti", "Kufri Pukhraj", "Kufri Chandramukhi"],
+        "Brinjal": ["Arka Nidhi", "Arka Neelkanth", "Green Long", "Black Beauty"],
+        "Cabbage": ["Golden Acre", "Copenhagen Market"],
+        "Carrot": ["Nantes", "Pusa Kesar", "Ooty Orange"],
+        "Beans": ["Arka Komal", "French Beans", "Pole Beans"]
+    },
+
+    "Commercial Crops": {
+        "Cotton": ["DCH 32", "Bunny", "Suraj", "Bt Cotton"],
+        "Sugarcane": ["Co 86032", "Co 0238", "Co 99004"],
+        "Coffee": ["Arabica", "Robusta"],
+        "Tea": ["Assam", "Darjeeling", "Nilgiri"],
+        "Jute": ["JRO 524", "JRO 7835"]
+    }
+};
+
+const categorySelect = document.getElementById("category");
+const cropSelect = document.getElementById("crop_name");
+const varietySelect = document.getElementById("variety");
+
+categorySelect.addEventListener("change", function() {
+
+    cropSelect.innerHTML = '<option value="">Select Crop</option>';
+    varietySelect.innerHTML = '<option value="">Select Variety</option>';
+    cropSelect.disabled = true;
+    varietySelect.disabled = true;
+
+    const crops = cropData[this.value];
+
+    if (crops) {
+        Object.keys(crops).forEach(crop => {
+            const option = document.createElement("option");
+            option.value = crop;
+            option.textContent = crop;
+            cropSelect.appendChild(option);
+        });
+
+        cropSelect.disabled = false;
+    }
+});
+
+cropSelect.addEventListener("change", function() {
+
+    varietySelect.innerHTML = '<option value="">Select Variety</option>';
+    varietySelect.disabled = true;
+
+    const varieties = cropData[categorySelect.value]?.[this.value];
+
+    if (varieties) {
+        varieties.forEach(variety => {
+            const option = document.createElement("option");
+            option.value = variety;
+            option.textContent = variety;
+            varietySelect.appendChild(option);
+        });
+
+        varietySelect.disabled = false;
+    }
+});
+
+</script>
+
+{% endblock %}

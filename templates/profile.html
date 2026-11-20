@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Farm2Market</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f7ef;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .profile-container {
+            max-width: 550px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px #0001;
+        }
+
+        h2 {
+            color: #26743b;
+            text-align: center;
+        }
+
+        .profile-icon {
+            text-align: center;
+            font-size: 55px;
+        }
+
+        .detail {
+            padding: 12px;
+            margin: 10px 0;
+            background: #f4f8f2;
+            border-radius: 8px;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #26743b;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            padding: 12px;
+            background: #26743b;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="profile-container">
+
+    <div class="profile-icon">👤</div>
+
+    <h2>My Profile</h2>
+
+    {% if user %}
+
+        <div class="detail">
+            <span class="label">Name:</span>
+            {{ user.get('name') or 'Not available' }}
+        </div>
+
+        <div class="detail">
+            <span class="label">Email:</span>
+            {{ user.get('email') or 'Not available' }}
+        </div>
+
+        <div class="detail">
+            <span class="label">Account Type:</span>
+            {{ (user.get('role') or 'Not available') | title }}
+        </div>
+
+        <div class="detail">
+            <span class="label">Phone:</span>
+            {{ user.get('phone') or 'Not provided' }}
+        </div>
+
+        <div class="detail">
+            <span class="label">Location:</span>
+            {{ user.get('location') or 'Not provided' }}
+        </div>
+
+        {% if user.get('role') == 'buyer' %}
+            <div class="detail">
+                <span class="label">Business Name:</span>
+                {{ user.get('business_name') or 'Not provided' }}
+            </div>
+
+            <div class="detail">
+                <span class="label">Contact Person:</span>
+                {{ user.get('contact_name') or 'Not provided' }}
+            </div>
+        {% endif %}
+
+    {% else %}
+
+        <p>Profile information is not available.</p>
+
+    {% endif %}
+<a class="back" href="{{ url_for('dashboard') }}">
+    Back to Dashboard
+</a>
+
+<a href="{{ url_for('logout') }}"
+   style="display:block; text-align:center; margin-top:12px;
+   padding:12px; background:#dc3545; color:white;
+   text-decoration:none; border-radius:8px;">
+    Logout
+</a>
+
+</div>
+
+</body>
+</html>

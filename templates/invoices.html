@@ -1,0 +1,81 @@
+
+{% extends "base.html" %}
+{% block title %}My Invoices | Farm2Market{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+    <span class="eyebrow">FARM2MARKET</span>
+    <h1>🧾 My Invoices</h1>
+    <p>View and print your purchase and sales invoices.</p>
+</section>
+
+{% if invoices %}
+
+    {% for invoice in invoices %}
+
+    <div class="dashboard-card invoice-card"
+         style="margin-bottom:20px;">
+
+        <h2>Invoice #{{ invoice.transaction_id }}</h2>
+
+        <hr>
+
+        <p><strong>Crop:</strong> {{ invoice.crop_name }}</p>
+        <p><strong>Quantity:</strong> {{ invoice.quantity_kg }} kg</p>
+        <p><strong>Price per kg:</strong> ₹{{ invoice.price_per_kg }}</p>
+        <p><strong>Crop amount:</strong> ₹{{ invoice.total_amount }}</p>
+        <p><strong>Transport charges:</strong> ₹{{ invoice.transport_cost }}</p>
+        <p><strong>Final amount:</strong> ₹{{ invoice.net_amount }}</p>
+
+        {% if role == 'buyer' %}
+            <p><strong>Farmer:</strong>
+                {{ invoice.farmer_name or 'Not available' }}
+            </p>
+        {% else %}
+            <p><strong>Buyer:</strong>
+                {{ invoice.buyer_name or 'Not available' }}
+            </p>
+        {% endif %}
+
+        <p><strong>Date:</strong> {{ invoice.created_at }}</p>
+        <p><strong>Status:</strong> {{ invoice.status }}</p>
+
+        <button type="button"
+                class="button"
+                onclick="window.print()">
+            🖨️ Print Invoice
+        </button>
+
+    </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <div class="dashboard-card">
+        <h2>📄 No Invoices Yet</h2>
+        <p>Your invoices will appear here when a purchase is recorded.</p>
+    </div>
+
+{% endif %}
+
+<a class="button" href="{{ url_for('dashboard') }}">
+    ← Back to Dashboard
+</a>
+
+<style>
+@media print {
+    header, footer, nav,
+    .page-heading, .button {
+        display: none !important;
+    }
+
+    .invoice-card {
+        border: 1px solid #ccc;
+        page-break-inside: avoid;
+    }
+}
+</style>
+
+{% endblock %}

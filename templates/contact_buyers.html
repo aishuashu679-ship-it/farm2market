@@ -1,0 +1,83 @@
+
+{% extends "base.html" %}
+
+{% block title %}Contact Buyers | Farm2Market{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+    <span class="eyebrow">FARMER WORKSPACE</span>
+    <h1>Contact Buyers 📞</h1>
+    <p>Connect with registered buyers interested in purchasing crops.</p>
+</section>
+
+<div class="dashboard-grid">
+
+    {% for buyer in buyers %}
+
+    <div class="dashboard-card">
+        <span>🏪</span>
+
+        <h2>{{ buyer.business_name or buyer.buyer_name }}</h2>
+
+        <p>
+            <strong>Contact:</strong>
+            {{ buyer.contact_name or "Not provided" }}
+        </p>
+
+        <p>
+            <strong>Phone:</strong>
+            {{ buyer.phone or "Not provided" }}
+        </p>
+
+        <p>
+            <strong>Location:</strong>
+            {{ buyer.location or "Not provided" }}
+        </p>
+
+        {% if buyer.phone %}
+
+            {% set phone_number = buyer.phone|string
+                |replace(' ', '')
+                |replace('-', '')
+                |replace('+', '')
+                |replace('(', '')
+                |replace(')', '') %}
+
+            {% if phone_number|length == 10 %}
+                {% set phone_number = '91' ~ phone_number %}
+            {% endif %}
+
+            <a class="button" href="tel:{{ buyer.phone }}">
+                📞 Call Buyer
+            </a>
+
+            <a class="button"
+               href="https://wa.me/{{ phone_number }}"
+               target="_blank"
+               rel="noopener">
+                💬 WhatsApp Buyer
+            </a>
+
+        {% else %}
+            <p>Phone number unavailable.</p>
+        {% endif %}
+
+    </div>
+
+    {% else %}
+
+    <div class="dashboard-card">
+        <h2>No Buyers Found</h2>
+        <p>Registered buyers will appear here.</p>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+<a class="button" href="{{ url_for('dashboard') }}">
+    Back to Dashboard
+</a>
+
+{% endblock %}

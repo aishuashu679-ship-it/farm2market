@@ -1,0 +1,175 @@
+
+{% extends "base.html" %}
+{% block title %}Dashboard | Farm2Market{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+    <span class="eyebrow">YOUR WORKSPACE</span>
+    <h1>Hello, {{ session.get('name') }} 👋</h1>
+    <p>
+        Account type: <strong>{{ session.get('role')|title }}</strong>.
+        Choose what you want to do.
+    </p>
+</section>
+
+<div class="dashboard-grid">
+
+{% if session.get('role') == 'buyer' %}
+
+    <a class="dashboard-card" href="{{ url_for('nearby_farmers') }}">
+        <span>👨‍🌾</span>
+        <h2>Find Nearby Farmers</h2>
+        <p>Find farmers selling crops near you.</p>
+        <strong>Explore farmers →</strong>
+    </a>
+
+    <a class="dashboard-card" href="{{ url_for('offers') }}">
+        <span>📢</span>
+        <h2>Publish Buyer Offers</h2>
+        <p>Publish the crops you want to purchase and your price.</p>
+        <strong>Publish offer →</strong>
+    </a>
+
+    <a class="dashboard-card" href="{{ url_for('crop_categories') }}">
+        <span>🌾</span>
+        <h2>Crop Categories</h2>
+        <p>Browse different crop categories.</p>
+        <strong>View categories →</strong>
+    </a>
+
+    <a class="dashboard-card" href="{{ url_for('quality_grading') }}">
+        <span>🧪</span>
+        <h2>Quality & Lab Grading</h2>
+        <p>Check crop quality information.</p>
+        <strong>View quality details →</strong>
+    </a>
+
+    <a class="dashboard-card" href="{{ url_for('contact_farmers') }}">
+        <span>☎️</span>
+        <h2>Contact Farmers</h2>
+        <p>Contact farmers about available crops.</p>
+        <strong>Contact farmers →</strong>
+    </a>
+
+    <a class="dashboard-card" href="{{ url_for('record_purchase') }}">
+        <span>🛒</span>
+        <h2>Record Purchase</h2>
+        <p>Save purchase details from a farmer.</p>
+        <strong>Record purchase →</strong>
+    </a>
+
+    <a class="dashboard-card" href="{{ url_for('transaction_history') }}">
+        <span>🧾</span>
+        <h2>Transaction History</h2>
+        <p>View your purchase records.</p>
+        <strong>View transactions →</strong>
+    </a>
+
+    <a class="dashboard-card" href="{{ url_for('invoices') }}">
+        <span>📄</span>
+        <h2>Invoices</h2>
+        <p>View and print invoices for your purchases.</p>
+        <strong>View invoices →</strong>
+    </a>
+
+{% elif session.get('role') == 'farmer' %}
+
+    <a class="dashboard-card" href="{{ url_for('crop_details') }}">
+        <span>🌱</span>
+        <h2>Submit Crop Details</h2>
+        <p>Add your crop, quantity, location and expected price.</p>
+        <strong>Submit crop →</strong>
+    </a>
+
+    <a class="dashboard-card" href="{{ url_for('nearby_buyers') }}">
+        <span>📍</span>
+        <h2>Find Nearby Buyers</h2>
+        <p>Find buyers interested in your crops.</p>
+        <strong>Explore buyers →</strong>
+    </a>
+
+    <a class="dashboard-card" href="{{ url_for('compare') }}">
+        <span>🔎</span>
+        <h2>Compare Buyers</h2>
+        <p>Compare buyer prices and estimated net returns.</p>
+        <strong>Compare offers →</strong>
+    </a>
+
+    <a class="dashboard-card" href="{{ url_for('best_value') }}">
+        <span>🏆</span>
+        <h2>Best Value Suggestion</h2>
+        <p>Find the buyer offering the best estimated net return.</p>
+        <strong>Find best value →</strong>
+    </a>
+
+    <a class="dashboard-card" href="{{ url_for('transport_charges') }}">
+        <span>🚚</span>
+        <h2>Transport Charges</h2>
+        <p>Calculate estimated transportation costs.</p>
+        <strong>Calculate charges →</strong>
+    </a>
+
+    <a class="dashboard-card" href="{{ url_for('crop_categories') }}">
+        <span>🌾</span>
+        <h2>Crop Categories</h2>
+        <p>Explore commercial crops, spices, cereals, fruits and vegetables.</p>
+        <strong>Browse crops →</strong>
+    </a>
+
+    <a class="dashboard-card" href="{{ url_for('quality_grading') }}">
+        <span>🧪</span>
+        <h2>Sample & Quality Testing</h2>
+        <p>View crop grading and laboratory information.</p>
+        <strong>View quality details →</strong>
+    </a>
+
+    <a class="dashboard-card" href="{{ url_for('contact_buyers') }}">
+        <span>💬</span>
+        <h2>Contact Buyers</h2>
+        <p>Contact buyers about your available crops.</p>
+        <strong>Contact buyers →</strong>
+    </a>
+
+    <a class="dashboard-card" href="{{ url_for('transaction_history') }}">
+        <span>💰</span>
+        <h2>Payments & Sales</h2>
+        <p>View your transaction records.</p>
+        <strong>View records →</strong>
+    </a>
+
+    <a class="dashboard-card" href="{{ url_for('invoices') }}">
+        <span>📄</span>
+        <h2>My Invoices</h2>
+        <p>View and print invoices for your crop sales.</p>
+        <strong>View invoices →</strong>
+    </a>
+
+{% elif session.get('role') == 'lab' %}
+
+    <a class="dashboard-card" href="{{ url_for('quality_grading') }}">
+        <span>🧪</span>
+        <h2>Laboratory Testing & Grading</h2>
+        <p>View farmers' sample requests, enter test measurements and submit quality grades.</p>
+        <strong>Open lab requests →</strong>
+    </a>
+
+{% endif %}
+
+    <a class="dashboard-card" href="{{ url_for('messages') }}">
+        <span>💬</span>
+        <h2>Messages</h2>
+        <p>Send and receive messages from other users.</p>
+        <strong>Open messages →</strong>
+    </a>
+
+    <a class="dashboard-card" href="{{ url_for('profile') }}">
+        <span>👤</span>
+        <h2>My Profile</h2>
+        <p>View your account information.</p>
+        <strong>My profile →</strong>
+    </a>
+
+</div>
+
+{% endblock %}
